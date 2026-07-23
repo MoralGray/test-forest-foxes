@@ -1,7 +1,4 @@
-import {
-    ChartContainer,
-    ChartTooltip,
-} from '@mg-nx-forge/mg-ui-shadcn-4';
+import { ChartContainer, ChartTooltip } from '@mg-nx-forge/mg-ui-shadcn-4';
 import { PieChart, Pie, Cell } from 'recharts';
 
 interface DonutDataItem {
@@ -17,7 +14,9 @@ interface DonutChartProps {
 }
 
 function CustomTooltip({ active, payload }: { active?: boolean; payload?: { payload: DonutDataItem }[] }) {
-    if (!active || !payload?.length) { return null; }
+    if (!active || !payload?.length) {
+        return null;
+    }
     const entry = payload[0].payload as DonutDataItem;
 
     return (
@@ -29,13 +28,9 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: { payl
                 />
                 {entry.name}
             </div>
-            <div className="text-neutral-600">
-                {entry.value} событий
-            </div>
+            <div className="text-neutral-600">{entry.value} событий</div>
             {entry.avgSuspicion !== undefined && (
-                <div className="text-neutral-600">
-                    средний suspicion: {entry.avgSuspicion.toFixed(1)}
-                </div>
+                <div className="text-neutral-600">средний suspicion: {entry.avgSuspicion.toFixed(1)}</div>
             )}
         </div>
     );
@@ -49,11 +44,7 @@ export function DonutChart({ data, title }: DonutChartProps) {
     }
 
     if (data.length === 0) {
-        return (
-            <div className="text-sm text-neutral-500 py-4 text-center">
-                {title}: нет данных
-            </div>
-        );
+        return <div className="text-sm text-neutral-500 py-4 text-center">{title}: нет данных</div>;
     }
 
     return (

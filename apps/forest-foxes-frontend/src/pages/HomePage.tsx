@@ -15,11 +15,22 @@ import { useFilterStore } from '../stores/filterStore.js';
 import { useObservationStore } from '../stores/observationStore.js';
 import { useTabStore } from '../stores/tabStore.js';
 
-const COLOR_PALETTE = ['#d97706', '#1f2937', '#9ca3af', '#eab308', '#dc2626', '#2563eb', '#16a34a', '#9333ea', '#0891b2'];
+const COLOR_PALETTE = [
+    '#d97706',
+    '#1f2937',
+    '#9ca3af',
+    '#eab308',
+    '#dc2626',
+    '#2563eb',
+    '#16a34a',
+    '#9333ea',
+    '#0891b2',
+];
 const BUCKET_COLORS: Record<string, string> = { low: '#16a34a', medium: '#eab308', high: '#dc2626' };
 
 export function HomePage() {
-    const { stats, topSuspicious, fetchStats, fetchTopSuspicious, fetchAll, fetchPending, fetchProcessed, error } = useObservationStore();
+    const { stats, topSuspicious, fetchStats, fetchTopSuspicious, fetchAll, fetchPending, fetchProcessed, error } =
+        useObservationStore();
     const { activeTab, setTab } = useTabStore();
     const { clearFilters } = useFilterStore();
 

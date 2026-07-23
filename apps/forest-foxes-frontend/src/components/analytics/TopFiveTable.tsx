@@ -20,7 +20,9 @@ interface TopFiveTableProps {
 export function TopFiveTable({ data }: TopFiveTableProps) {
     return (
         <Card>
-            <CardHeader><CardTitle>Top 5 подозрительных</CardTitle></CardHeader>
+            <CardHeader>
+                <CardTitle>Top 5 подозрительных</CardTitle>
+            </CardHeader>
             <CardContent>
                 {data.length === 0 ? (
                     <p className="text-sm text-neutral-500">Нет данных</p>
@@ -38,11 +40,7 @@ export function TopFiveTable({ data }: TopFiveTableProps) {
                             {data.map((item, i) => (
                                 <TableRow key={item.foxId}>
                                     <TableCell className="font-medium">
-                                        {i === 0 ? (
-                                            <Badge variant="default">1</Badge>
-                                        ) : (
-                                            i + 1
-                                        )}
+                                        {i === 0 ? <Badge variant="default">1</Badge> : i + 1}
                                     </TableCell>
                                     <TableCell>
                                         <div>{item.foxId}</div>

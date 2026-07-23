@@ -14,11 +14,21 @@ const BORDER_COLORS: Record<string, string> = {
 };
 
 function getBorderColor(avgSuspicion: number | undefined): string {
-    if (avgSuspicion === undefined || avgSuspicion === 0) { return 'border-neutral-200'; }
-    if (avgSuspicion <= 2) { return BORDER_COLORS.green; }
-    if (avgSuspicion <= 4) { return BORDER_COLORS['yellow-green']; }
-    if (avgSuspicion <= 6) { return BORDER_COLORS.amber; }
-    if (avgSuspicion <= 8) { return BORDER_COLORS.orange; }
+    if (avgSuspicion === undefined || avgSuspicion === 0) {
+        return 'border-neutral-200';
+    }
+    if (avgSuspicion <= 2) {
+        return BORDER_COLORS.green;
+    }
+    if (avgSuspicion <= 4) {
+        return BORDER_COLORS['yellow-green'];
+    }
+    if (avgSuspicion <= 6) {
+        return BORDER_COLORS.amber;
+    }
+    if (avgSuspicion <= 8) {
+        return BORDER_COLORS.orange;
+    }
     return BORDER_COLORS.red;
 }
 

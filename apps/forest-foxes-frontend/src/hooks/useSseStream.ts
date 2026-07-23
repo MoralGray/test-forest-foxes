@@ -59,8 +59,7 @@ export function useSseStream() {
                 queryClient.invalidateQueries({
                     predicate: (q) =>
                         typeof q.queryKey[0] === 'string' &&
-                        (q.queryKey[0].startsWith('pending-') ||
-                            q.queryKey[0].startsWith('processed-')),
+                        (q.queryKey[0].startsWith('pending-') || q.queryKey[0].startsWith('processed-')),
                 });
             } catch (e) {
                 console.error('[sse] malformed event:', e);

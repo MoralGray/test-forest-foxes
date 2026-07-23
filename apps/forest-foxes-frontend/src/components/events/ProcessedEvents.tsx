@@ -45,7 +45,7 @@ export function ProcessedEvents() {
                                     {obs.foxId} · {obs.location.name}
                                 </div>
                                 <div>
-                                    suspicion: {obs.suspicionLevel} · {obs.time}
+                                    suspicion: {obs.suspicionLevel} · {obs.time.slice(11, 16)}
                                 </div>
                             </button>
                         ))}

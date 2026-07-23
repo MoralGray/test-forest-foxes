@@ -139,7 +139,17 @@ describe('observationStore', () => {
 
     describe('fetchStats', () => {
         it('stores stats response', async () => {
-            const stats = { total: 10, pending: 5, processed: 5, uniqueFoxes: 3, avgSuspicion: 5.5, byColor: [], byLocation: [], byHasPrey: [], suspicionBuckets: [] };
+            const stats = {
+                total: 10,
+                pending: 5,
+                processed: 5,
+                uniqueFoxes: 3,
+                avgSuspicion: 5.5,
+                byColor: [],
+                byLocation: [],
+                byHasPrey: [],
+                suspicionBuckets: [],
+            };
             mockGet.mockResolvedValue(stats);
 
             await useObservationStore.getState().fetchStats();
@@ -148,7 +158,17 @@ describe('observationStore', () => {
         });
 
         it('passes tab parameter', async () => {
-            mockGet.mockResolvedValue({ total: 0, pending: 0, processed: 0, uniqueFoxes: 0, avgSuspicion: 0, byColor: [], byLocation: [], byHasPrey: [], suspicionBuckets: [] });
+            mockGet.mockResolvedValue({
+                total: 0,
+                pending: 0,
+                processed: 0,
+                uniqueFoxes: 0,
+                avgSuspicion: 0,
+                byColor: [],
+                byLocation: [],
+                byHasPrey: [],
+                suspicionBuckets: [],
+            });
 
             await useObservationStore.getState().fetchStats('suspicious');
 
@@ -156,7 +176,17 @@ describe('observationStore', () => {
         });
 
         it('omits tab parameter for all tab', async () => {
-            mockGet.mockResolvedValue({ total: 0, pending: 0, processed: 0, uniqueFoxes: 0, avgSuspicion: 0, byColor: [], byLocation: [], byHasPrey: [], suspicionBuckets: [] });
+            mockGet.mockResolvedValue({
+                total: 0,
+                pending: 0,
+                processed: 0,
+                uniqueFoxes: 0,
+                avgSuspicion: 0,
+                byColor: [],
+                byLocation: [],
+                byHasPrey: [],
+                suspicionBuckets: [],
+            });
 
             await useObservationStore.getState().fetchStats();
 
@@ -166,7 +196,17 @@ describe('observationStore', () => {
 
     describe('fetchTopSuspicious', () => {
         it('stores topSuspicious response', async () => {
-            const data = [{ foxId: 'fox_001', color: 'рыжая', avgSuspicion: 8.5, count: 5, firstSeen: '08:00', lastSeen: '12:00', lastLocation: 'Северная поляна' }];
+            const data = [
+                {
+                    foxId: 'fox_001',
+                    color: 'рыжая',
+                    avgSuspicion: 8.5,
+                    count: 5,
+                    firstSeen: '08:00',
+                    lastSeen: '12:00',
+                    lastLocation: 'Северная поляна',
+                },
+            ];
             mockGet.mockResolvedValue(data);
 
             await useObservationStore.getState().fetchTopSuspicious();
@@ -179,13 +219,23 @@ describe('observationStore', () => {
 
             await useObservationStore.getState().fetchTopSuspicious(5, 'processed', 'suspicious');
 
-            expect(mockGet).toHaveBeenCalledWith('/api/observations/top-suspicious?limit=5&status=processed&tab=suspicious');
+            expect(mockGet).toHaveBeenCalledWith(
+                '/api/observations/top-suspicious?limit=5&status=processed&tab=suspicious'
+            );
         });
     });
 
     describe('createObservation', () => {
         it('POSTs to /api/observations', async () => {
-            const payload = { id: 'obs_002', foxId: 'fox_002', locationId: 2, color: 'черная', hasPrey: false, suspicionLevel: 5, time: '09:00' };
+            const payload = {
+                id: 'obs_002',
+                foxId: 'fox_002',
+                locationId: 2,
+                color: 'черная',
+                hasPrey: false,
+                suspicionLevel: 5,
+                time: '09:00',
+            };
             mockPost.mockResolvedValue({ id: 'obs_002' });
 
             await useObservationStore.getState().createObservation(payload);
@@ -220,7 +270,17 @@ describe('observationStore', () => {
 
     describe('importObservations', () => {
         it('POSTs to /api/observations/import and returns counts', async () => {
-            const events = [{ id: 'obs_001', foxId: 'fox_001', locationId: 1, color: 'рыжая', hasPrey: true, suspicionLevel: 8, time: '08:20' }];
+            const events = [
+                {
+                    id: 'obs_001',
+                    foxId: 'fox_001',
+                    locationId: 1,
+                    color: 'рыжая',
+                    hasPrey: true,
+                    suspicionLevel: 8,
+                    time: '08:20',
+                },
+            ];
             mockPost.mockResolvedValue({ created: 1, skipped: 0 });
 
             const result = await useObservationStore.getState().importObservations(events);

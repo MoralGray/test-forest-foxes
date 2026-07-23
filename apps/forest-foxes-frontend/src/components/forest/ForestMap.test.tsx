@@ -43,7 +43,9 @@ describe('ForestMap', () => {
         const { container } = render(<ForestMap />);
         const cells = container.querySelectorAll('button');
         const cell3 = cells[2];
-        expect(cell3.querySelector('[class*="animate-flash"]') ?? cell3.querySelector('[style*="animation"]')).toBeTruthy();
+        expect(
+            cell3.querySelector('[class*="animate-flash"]') ?? cell3.querySelector('[style*="animation"]')
+        ).toBeTruthy();
     });
 
     it('removes flash overlay after flash expires', async () => {

@@ -31,10 +31,7 @@ describe('ObservationsAnalyticsService', () => {
         const service = new ObservationsAnalyticsService(mockPrisma as any);
 
         const mockAgg = mockPrisma.prisma.observation as any;
-        mockAgg.groupBy
-            .mockResolvedValueOnce([])
-            .mockResolvedValueOnce([])
-            .mockResolvedValueOnce([]);
+        mockAgg.groupBy.mockResolvedValueOnce([]).mockResolvedValueOnce([]).mockResolvedValueOnce([]);
         mockAgg.count
             .mockResolvedValueOnce(0)
             .mockResolvedValueOnce(0)
@@ -67,12 +64,8 @@ describe('ObservationsAnalyticsService', () => {
 
         const mockAgg = mockPrisma.prisma.observation as any;
         mockAgg.groupBy
-            .mockResolvedValueOnce([
-                { foxId: 'fox_001', _count: { id: 3 }, _avg: { suspicionLevel: 7 } },
-            ])
-            .mockResolvedValueOnce([
-                { locationId: 1, _count: { id: 3 }, _avg: { suspicionLevel: 7 } },
-            ])
+            .mockResolvedValueOnce([{ foxId: 'fox_001', _count: { id: 3 }, _avg: { suspicionLevel: 7 } }])
+            .mockResolvedValueOnce([{ locationId: 1, _count: { id: 3 }, _avg: { suspicionLevel: 7 } }])
             .mockResolvedValueOnce([
                 { hasPrey: true, _count: { id: 2 }, _avg: { suspicionLevel: 8 } },
                 { hasPrey: false, _count: { id: 1 }, _avg: { suspicionLevel: 5 } },
@@ -85,9 +78,7 @@ describe('ObservationsAnalyticsService', () => {
             .mockResolvedValueOnce(0)
             .mockResolvedValueOnce(0);
         mockAgg.aggregate.mockResolvedValue({ _avg: { suspicionLevel: 7 } });
-        (mockPrisma.prisma.fox as any).findMany.mockResolvedValue([
-            { id: 'fox_001', color: 'рыжая' },
-        ]);
+        (mockPrisma.prisma.fox as any).findMany.mockResolvedValue([{ id: 'fox_001', color: 'рыжая' }]);
         (mockPrisma.prisma.location as any).findUnique.mockResolvedValue({ id: 1, name: 'Северная поляна' });
 
         const result = await service.stats();
@@ -111,10 +102,7 @@ describe('ObservationsAnalyticsService', () => {
         const service = new ObservationsAnalyticsService(mockPrisma as any);
 
         const mockAgg = mockPrisma.prisma.observation as any;
-        mockAgg.groupBy
-            .mockResolvedValue([])
-            .mockResolvedValue([])
-            .mockResolvedValue([]);
+        mockAgg.groupBy.mockResolvedValue([]).mockResolvedValue([]).mockResolvedValue([]);
         mockAgg.count
             .mockResolvedValue(0)
             .mockResolvedValue(0)
@@ -138,10 +126,7 @@ describe('ObservationsAnalyticsService', () => {
         const service = new ObservationsAnalyticsService(mockPrisma as any);
 
         const mockAgg = mockPrisma.prisma.observation as any;
-        mockAgg.groupBy
-            .mockResolvedValue([])
-            .mockResolvedValue([])
-            .mockResolvedValue([]);
+        mockAgg.groupBy.mockResolvedValue([]).mockResolvedValue([]).mockResolvedValue([]);
         mockAgg.count
             .mockResolvedValue(0)
             .mockResolvedValue(0)
@@ -181,8 +166,20 @@ describe('ObservationsAnalyticsService', () => {
         const service = new ObservationsAnalyticsService(mockPrisma as any);
 
         (mockPrisma.prisma.observation as any).groupBy.mockResolvedValue([
-            { foxId: 'fox_001', _avg: { suspicionLevel: 9.2 }, _count: { id: 5 }, _max: { time: '12:00' }, _min: { time: '08:00' } },
-            { foxId: 'fox_002', _avg: { suspicionLevel: 7.5 }, _count: { id: 3 }, _max: { time: '11:00' }, _min: { time: '09:00' } },
+            {
+                foxId: 'fox_001',
+                _avg: { suspicionLevel: 9.2 },
+                _count: { id: 5 },
+                _max: { time: '12:00' },
+                _min: { time: '08:00' },
+            },
+            {
+                foxId: 'fox_002',
+                _avg: { suspicionLevel: 7.5 },
+                _count: { id: 3 },
+                _max: { time: '11:00' },
+                _min: { time: '09:00' },
+            },
         ]);
         (mockPrisma.prisma.fox as any).findMany.mockResolvedValue([
             { id: 'fox_001', color: 'рыжая' },

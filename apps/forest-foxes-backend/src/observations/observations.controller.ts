@@ -1,4 +1,16 @@
-import { BadRequestException, Body, Controller, Delete, Get, Inject, Param, Patch, Post, Query, Sse } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Inject,
+    Param,
+    Patch,
+    Post,
+    Query,
+    Sse,
+} from '@nestjs/common';
 import { map } from 'rxjs';
 import type { CreateObservationDto } from './dto/create-observation.dto.js';
 import type { UpdateObservationDto } from './dto/update-observation.dto.js';
@@ -48,9 +60,7 @@ export class ObservationsController {
 
     @Sse('observations/stream')
     stream() {
-        return this.sseService.stream().pipe(
-            map((event) => ({ data: JSON.stringify(event) }))
-        );
+        return this.sseService.stream().pipe(map((event) => ({ data: JSON.stringify(event) })));
     }
 
     @Get('observations/stats')

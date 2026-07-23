@@ -1,10 +1,4 @@
-import {
-    Badge,
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@mg-nx-forge/mg-ui-shadcn-4';
+import { Badge, Card, CardContent, CardHeader, CardTitle } from '@mg-nx-forge/mg-ui-shadcn-4';
 import type { StatsResponse, TopSuspiciousItem } from '../../types/index.js';
 
 interface SummaryCardProps {
@@ -16,7 +10,9 @@ export function SummaryCard({ stats, topFox }: SummaryCardProps) {
     if (!stats) {
         return (
             <Card>
-                <CardHeader><CardTitle>Сводка</CardTitle></CardHeader>
+                <CardHeader>
+                    <CardTitle>Сводка</CardTitle>
+                </CardHeader>
                 <CardContent className="text-sm text-neutral-500">Загрузка...</CardContent>
             </Card>
         );
@@ -24,12 +20,16 @@ export function SummaryCard({ stats, topFox }: SummaryCardProps) {
 
     return (
         <Card>
-            <CardHeader><CardTitle>Сводка</CardTitle></CardHeader>
+            <CardHeader>
+                <CardTitle>Сводка</CardTitle>
+            </CardHeader>
             <CardContent className="space-y-2 text-sm">
                 {topFox && (
                     <div className="bg-amber-50 border border-amber-200 rounded p-2 space-y-1">
                         <div className="flex items-center gap-1">
-                            <Badge variant="default" className="text-xs">#1</Badge>
+                            <Badge variant="default" className="text-xs">
+                                #1
+                            </Badge>
                             <span className="font-semibold text-amber-800">Самая подозрительная</span>
                         </div>
                         <div className="text-amber-900">
@@ -58,7 +58,9 @@ export function SummaryCard({ stats, topFox }: SummaryCardProps) {
                 </div>
                 <div className="flex justify-between">
                     <span className="text-neutral-600">Pending / Processed</span>
-                    <span className="font-medium">{stats.pending} / {stats.processed}</span>
+                    <span className="font-medium">
+                        {stats.pending} / {stats.processed}
+                    </span>
                 </div>
             </CardContent>
         </Card>

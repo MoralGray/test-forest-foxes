@@ -12,8 +12,12 @@ createRoot(document.getElementById('root')!).render(
             <BrowserRouter>
                 <div className="min-h-screen bg-white text-neutral-900">
                     <header className="border-b px-4 py-2 flex items-center gap-4">
-                        <Link to="/" className="font-bold text-lg">Лисий диспетчер</Link>
-                        <Link to="/worklog" className="text-sm text-neutral-600 hover:text-neutral-900">AI Worklog</Link>
+                        <Link to="/" className="font-bold text-lg">
+                            Лисий диспетчер
+                        </Link>
+                        <Link to="/worklog" className="text-sm text-neutral-600 hover:text-neutral-900">
+                            AI Worklog
+                        </Link>
                     </header>
                     <main>
                         <Routes>

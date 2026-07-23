@@ -3,7 +3,18 @@ const INTERVAL_MS = Number(process.env.FOREST_FOXES_POLL_INTERVAL_MS) || 30_000;
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 2_000;
 
-const FOX_IDS = ['fox_001', 'fox_002', 'fox_003', 'fox_004', 'fox_005', 'fox_006', 'fox_007', 'fox_008', 'fox_009', 'fox_010'];
+const FOX_IDS = [
+    'fox_001',
+    'fox_002',
+    'fox_003',
+    'fox_004',
+    'fox_005',
+    'fox_006',
+    'fox_007',
+    'fox_008',
+    'fox_009',
+    'fox_010',
+];
 const COLORS = ['рыжая', 'черная', 'серебристая', 'золотистая'];
 const LOCATIONS = [
     { id: 1, name: 'Северная поляна' },
@@ -24,7 +35,9 @@ function generateObservation() {
     const hasPrey = Math.random() > 0.5;
     const suspicionLevel = Math.floor(Math.random() * 10) + 1;
     const now = new Date();
-    const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const time = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}T${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
     const id = `obs_${Date.now()}_${String(Math.random()).slice(2, 8)}`;
 
     return {

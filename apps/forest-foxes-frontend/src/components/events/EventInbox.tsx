@@ -75,7 +75,7 @@ export function EventInbox() {
                                     {obs.foxId} · {obs.location.name}
                                 </div>
                                 <div className="text-neutral-500">
-                                    suspicion: {obs.suspicionLevel} · {obs.time}
+                                    suspicion: {obs.suspicionLevel} · {obs.time.slice(11, 16)}
                                 </div>
                             </button>
                         ))}

@@ -174,13 +174,16 @@ export const useObservationStore = create<ObservationState>((set) => ({
         })),
 
     addFlash: (locationId, suspicionLevel) => {
-        const flash: EventFlash = { locationId, suspicionLevel, id: `flash_${Date.now()}_${Math.random().toString(36).slice(2, 6)}` };
+        const flash: EventFlash = {
+            locationId,
+            suspicionLevel,
+            id: `flash_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+        };
         set((state) => ({ eventFlashes: [...state.eventFlashes, flash] }));
         setTimeout(() => {
             useObservationStore.getState().removeFlash(flash.id);
         }, 2000);
     },
 
-    removeFlash: (flashId) =>
-        set((state) => ({ eventFlashes: state.eventFlashes.filter((f) => f.id !== flashId) })),
+    removeFlash: (flashId) => set((state) => ({ eventFlashes: state.eventFlashes.filter((f) => f.id !== flashId) })),
 }));

@@ -27,10 +27,7 @@ describe('ObservationsService', () => {
 
     beforeEach(() => {
         mocks = createMockPrisma();
-        service = new ObservationsService(
-            { prisma: mocks.prisma } as any,
-            { emit: mocks.sse.emit } as any,
-        );
+        service = new ObservationsService({ prisma: mocks.prisma } as any, { emit: mocks.sse.emit } as any);
     });
 
     describe('create', () => {
@@ -269,9 +266,7 @@ describe('ObservationsService', () => {
                 fox: { id: 'fox_001', color: 'рыжая' },
                 location: { id: 1, name: 'Северная поляна' },
             };
-            mocks.prisma.observation.findUnique
-                .mockResolvedValueOnce(existing)
-                .mockResolvedValueOnce(existing);
+            mocks.prisma.observation.findUnique.mockResolvedValueOnce(existing).mockResolvedValueOnce(existing);
             mocks.prisma.fox.findUnique.mockResolvedValue({ id: 'fox_001', color: 'рыжая' });
             mocks.prisma.observation.update.mockResolvedValue(existing);
 
@@ -295,9 +290,7 @@ describe('ObservationsService', () => {
                 fox: { id: 'fox_001', color: 'рыжая' },
                 location: { id: 1, name: 'Северная поляна' },
             };
-            mocks.prisma.observation.findUnique
-                .mockResolvedValueOnce(existing)
-                .mockResolvedValueOnce(existing);
+            mocks.prisma.observation.findUnique.mockResolvedValueOnce(existing).mockResolvedValueOnce(existing);
             mocks.prisma.fox.findUnique.mockResolvedValue(null);
             mocks.prisma.fox.create.mockResolvedValue({ id: 'fox_002', color: 'черная' });
             mocks.prisma.observation.update.mockResolvedValue(existing);
@@ -315,14 +308,10 @@ describe('ObservationsService', () => {
                 fox: { id: 'fox_001', color: 'рыжая' },
                 location: { id: 1, name: 'Северная поляна' },
             };
-            mocks.prisma.observation.findUnique
-                .mockResolvedValueOnce(existing)
-                .mockResolvedValueOnce(existing);
+            mocks.prisma.observation.findUnique.mockResolvedValueOnce(existing).mockResolvedValueOnce(existing);
             mocks.prisma.fox.findUnique.mockResolvedValue(null);
 
-            await expect(service.update('obs_001', { foxId: 'fox_999' })).rejects.toThrow(
-                'Fox fox_999 not found'
-            );
+            await expect(service.update('obs_001', { foxId: 'fox_999' })).rejects.toThrow('Fox fox_999 not found');
         });
     });
 

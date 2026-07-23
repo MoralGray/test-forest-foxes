@@ -21,10 +21,7 @@ describe('ObservationsImportService', () => {
 
     beforeEach(() => {
         mocks = createMocks();
-        service = new ObservationsImportService(
-            { prisma: mocks.prisma } as any,
-            { emit: mocks.sse.emit } as any,
-        );
+        service = new ObservationsImportService({ prisma: mocks.prisma } as any, { emit: mocks.sse.emit } as any);
     });
 
     const event = {
@@ -61,9 +58,7 @@ describe('ObservationsImportService', () => {
         const event1 = { ...event, id: 'obs_001' };
         const event2 = { ...event, id: 'obs_002' };
 
-        mocks.prisma.observation.findUnique
-            .mockResolvedValueOnce({ id: 'obs_001' })
-            .mockResolvedValueOnce(null);
+        mocks.prisma.observation.findUnique.mockResolvedValueOnce({ id: 'obs_001' }).mockResolvedValueOnce(null);
         mocks.prisma.fox.findUnique.mockResolvedValue({ id: 'fox_001', color: 'рыжая' });
         mocks.prisma.observation.create.mockResolvedValue({ id: 'obs_002' });
 
@@ -112,9 +107,7 @@ describe('ObservationsImportService', () => {
         ];
 
         mocks.prisma.observation.findUnique.mockResolvedValue(null);
-        mocks.prisma.fox.findUnique
-            .mockResolvedValueOnce(null)
-            .mockResolvedValueOnce(null);
+        mocks.prisma.fox.findUnique.mockResolvedValueOnce(null).mockResolvedValueOnce(null);
         mocks.prisma.fox.create
             .mockResolvedValueOnce({ id: 'fox_001', color: 'рыжая' })
             .mockResolvedValueOnce({ id: 'fox_002', color: 'рыжая' });

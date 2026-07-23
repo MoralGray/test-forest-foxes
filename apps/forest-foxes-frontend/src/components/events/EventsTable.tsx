@@ -12,7 +12,12 @@ export function EventsTable() {
     const { activeTab } = useTabStore();
     const { setSelectedEvent } = useViewModeStore();
 
-    const data = activeTab === 'all' ? observations : activeTab === 'suspicious' ? observations.filter((o) => o.suspicionLevel >= 7) : processed;
+    const data =
+        activeTab === 'all'
+            ? observations
+            : activeTab === 'suspicious'
+              ? observations.filter((o) => o.suspicionLevel >= 7)
+              : processed;
 
     const columns = useMemo<ColumnDef<Observation>[]>(
         () => [
@@ -49,7 +54,16 @@ export function EventsTable() {
                     return <Badge variant={v >= 7 ? 'default' : 'outline'}>{v}</Badge>;
                 },
             },
-            { accessorKey: 'time', header: 'Time', size: 80, minSize: 60 },
+            {
+                accessorKey: 'time',
+                header: 'Time',
+                size: 80,
+                minSize: 60,
+                cell: ({ getValue }) => {
+                    const v = getValue<string>();
+                    return v.length > 5 ? v.slice(11, 16) : v;
+                },
+            },
             {
                 accessorKey: 'status',
                 header: 'Status',
@@ -58,7 +72,7 @@ export function EventsTable() {
                 cell: ({ getValue }) => (getValue() === 'processed' ? '✓' : '○'),
             },
         ],
-        [],
+        []
     );
 
     const { table } = useDataTable<Observation>({
@@ -68,7 +82,7 @@ export function EventsTable() {
         enableSorting: true,
         enablePagination: true,
         enableFilters: false,
-        initialSorting: [{ id: 'time', desc: true }],
+        initialSorting: [{ id: 'createdAt', desc: true }],
     });
 
     return (
