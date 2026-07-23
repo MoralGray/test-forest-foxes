@@ -1,0 +1,36 @@
+[tools]
+node = '22'
+
+[env]
+FOREST_FOXES_FRONTEND_PORT = "3020"
+FOREST_FOXES_BACKEND_PORT = "8020"
+FOREST_FOXES_DATABASE_URL = "file:.db/forest-foxes/dev.db"
+FOREST_FOXES_POLL_INTERVAL_MS = "5000"
+
+[tasks]
+# Start all three services: backend + frontend + fox-engine
+all = { run = "npx nx run-many --target=dev --projects=forest-foxes-backend,forest-foxes-frontend,fox-engine", dir = "{{cwd}}" }
+
+# Fox engine standalone
+"fox-engine:dev" = { run = "npx nx run fox-engine:dev", dir = "{{cwd}}" }
+
+# Prisma
+"forest-foxes:db-push" = { run = "npm run db:push", dir = "packages/forest-foxes-shared-prisma" }
+"forest-foxes:db-generate" = { run = "npm run db:generate", dir = "packages/forest-foxes-shared-prisma" }
+
+# Seeds
+"forest-foxes:seed-working" = { run = "curl -X POST http://localhost:8020/api/seeds/working", dir = "{{cwd}}" }
+"forest-foxes:seed-clean" = { run = "curl -X POST http://localhost:8020/api/seeds/clean", dir = "{{cwd}}" }
+"forest-foxes:seed-crash" = { run = "curl -X POST http://localhost:8020/api/seeds/crash-test", dir = "{{cwd}}" }
+
+# Health check
+"forest-foxes:health" = { run = "curl -s http://localhost:8020/api/health", dir = "{{cwd}}" }
+
+# Tests
+"tests:all" = {
+    run = [
+        "npx nx run-many --target=test --projects=forest-foxes-backend,forest-foxes-frontend",
+        "npx playwright test --config apps/forest-foxes-frontend/playwright.config.ts --workers 1",
+    ],
+    dir = "{{cwd}}"
+}

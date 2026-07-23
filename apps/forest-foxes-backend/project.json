@@ -1,0 +1,47 @@
+{
+    "$schema": "../../node_modules/nx/schemas/nx-schema.json",
+    "name": "forest-foxes-backend",
+    "project": {
+        "type": "application"
+    },
+    "sourceRoot": "apps/forest-foxes-backend",
+    "targets": {
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run dev",
+                "cwd": "apps/forest-foxes-backend"
+            },
+            "forwardAllArgs": true,
+            "continuous": true
+        },
+        "start": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run start",
+                "cwd": "apps/forest-foxes-backend"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run lint",
+                "cwd": "apps/forest-foxes-backend"
+            }
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run typecheck",
+                "cwd": "apps/forest-foxes-backend"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run test",
+                "cwd": "apps/forest-foxes-backend"
+            }
+        }
+    }
+}

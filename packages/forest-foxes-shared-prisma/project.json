@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "name": "forest-foxes-shared-prisma",
+    "project": {
+        "type": "library"
+    },
+    "sourceRoot": "packages/forest-foxes-shared-prisma/src",
+    "targets": {
+        "db:push": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run db:push",
+                "cwd": "packages/forest-foxes-shared-prisma"
+            }
+        },
+        "db:generate": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run db:generate",
+                "cwd": "packages/forest-foxes-shared-prisma"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run lint",
+                "cwd": "packages/forest-foxes-shared-prisma"
+            }
+        },
+        "typecheck": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm run typecheck",
+                "cwd": "packages/forest-foxes-shared-prisma"
+            }
+        }
+    }
+}

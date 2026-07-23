@@ -1,0 +1,46 @@
+generator client {
+    provider = "prisma-client"
+    output   = "../src/generated/prisma"
+}
+
+datasource db {
+    provider = "sqlite"
+}
+
+model Location {
+    id        Int      @id
+    name      String
+    gridRow   Int
+    gridCol   Int
+    createdAt DateTime @default(now())
+
+    observations Observation[]
+}
+
+model Fox {
+    id        String   @id
+    color     String
+    createdAt DateTime @default(now())
+
+    observations Observation[]
+}
+
+model Observation {
+    id              String   @id
+    foxId           String
+    locationId      Int
+    hasPrey         Boolean
+    suspicionLevel  Int
+    time            String
+    status          String   @default("pending")
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
+
+    fox      Fox      @relation(fields: [foxId], references: [id])
+    location Location @relation(fields: [locationId], references: [id])
+
+    @@index([status])
+    @@index([suspicionLevel])
+    @@index([foxId])
+    @@index([locationId])
+}

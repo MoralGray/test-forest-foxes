@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "types": ["node"],
+        "outDir": "dist",
+        "declaration": true,
+        "paths": {
+            "@mg-nx-forge/forest-foxes-shared-prisma": ["../../packages/forest-foxes-shared-prisma/src/index.ts"]
+        }
+    },
+    "include": ["src/**/*.ts"]
+}

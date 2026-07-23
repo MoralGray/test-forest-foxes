@@ -1,0 +1,47 @@
+[
+  {
+    "id": "obs_101",
+    "foxId": "fox_001",
+    "locationId": 1,
+    "color": "рыжая",
+    "hasPrey": true,
+    "suspicionLevel": 9,
+    "time": "08:15"
+  },
+  {
+    "id": "obs_102",
+    "foxId": "fox_002",
+    "locationId": 5,
+    "color": "черная",
+    "hasPrey": false,
+    "suspicionLevel": 4,
+    "time": "09:30"
+  },
+  {
+    "id": "obs_103",
+    "foxId": "fox_003",
+    "locationId": 3,
+    "color": "серебристая",
+    "hasPrey": true,
+    "suspicionLevel": 7,
+    "time": "10:00"
+  },
+  {
+    "id": "obs_104",
+    "foxId": "fox_001",
+    "locationId": 1,
+    "color": "рыжая",
+    "hasPrey": false,
+    "suspicionLevel": 6,
+    "time": "11:45"
+  },
+  {
+    "id": "obs_105",
+    "foxId": "fox_004",
+    "locationId": 8,
+    "color": "золотистая",
+    "hasPrey": true,
+    "suspicionLevel": 8,
+    "time": "12:20"
+  }
+]

@@ -1,0 +1,29 @@
+[
+    {
+        "id": "e2e_import_001",
+        "fox_id": "fox_001",
+        "location_id": 1,
+        "color": "рыжая",
+        "has_prey": true,
+        "suspicion_level": 8,
+        "time": "14:00"
+    },
+    {
+        "id": "e2e_import_002",
+        "fox_id": "fox_002",
+        "location_id": 2,
+        "color": "черная",
+        "has_prey": false,
+        "suspicion_level": 5,
+        "time": "14:30"
+    },
+    {
+        "id": "e2e_import_003",
+        "fox_id": "fox_003",
+        "location_id": 5,
+        "color": "серебристая",
+        "has_prey": true,
+        "suspicion_level": 9,
+        "time": "15:00"
+    }
+]
