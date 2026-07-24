@@ -40,7 +40,7 @@ export default defineConfig({
                 replacement: path.resolve(__dirname, '../../packages/mg-table-tanstack/src/index.ts'),
             },
         ],
-        dedupe: ['react', 'react-dom'],
+        dedupe: ['react', 'react-dom', '@tanstack/react-query'],
     },
     server: {
         proxy: {

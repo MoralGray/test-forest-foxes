@@ -2,6 +2,18 @@ const BACKEND_URL = process.env.FOREST_FOXES_BACKEND_URL ?? 'http://localhost:80
 const INTERVAL_MS = Number(process.env.FOREST_FOXES_POLL_INTERVAL_MS) || 30_000;
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 2_000;
+const ENGINE_STATUS_URL = `${BACKEND_URL}/api/engine/status`;
+
+async function isEngineEnabled(): Promise<boolean> {
+    try {
+        const res = await fetch(ENGINE_STATUS_URL);
+        if (!res.ok) return true;
+        const body = await res.json() as { enabled: boolean };
+        return body.enabled;
+    } catch {
+        return true;
+    }
+}
 
 const FOX_IDS = [
     'fox_001',
@@ -82,7 +94,12 @@ async function postObservation(observation: ReturnType<typeof generateObservatio
 
 console.log(`[fox-engine] Starting — posting every ${INTERVAL_MS / 1000}s to ${BACKEND_URL}`);
 
-setInterval(() => {
+setInterval(async () => {
+    const enabled = await isEngineEnabled();
+    if (!enabled) {
+        console.log('[fox-engine] Engine disabled, skipping tick');
+        return;
+    }
     const observation = generateObservation();
     postObservation(observation).catch(() => {});
 }, INTERVAL_MS);

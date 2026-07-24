@@ -1,7 +1,9 @@
 import { useInfiniteView } from '@mg-nx-forge/mg-infinite-view-tanstack';
-import { Button, Card, CardContent, CardHeader, CardTitle, ScrollArea } from '@mg-nx-forge/mg-ui-shadcn-4';
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle, ScrollArea, Switch } from '@mg-nx-forge/mg-ui-shadcn-4';
+import { useEffect } from 'react';
 import { toast } from 'sonner';
 import { api } from '../../services/api.js';
+import { useEngineStore } from '../../stores/engineStore.js';
 import { useFilterStore } from '../../stores/filterStore.js';
 import { useObservationStore } from '../../stores/observationStore.js';
 import { useViewModeStore } from '../../stores/viewModeStore.js';
@@ -11,6 +13,11 @@ export function EventInbox() {
     const { importObservations } = useObservationStore();
     const { setSelectedEvent } = useViewModeStore();
     const { locationId } = useFilterStore();
+    const { enabled, loading, fetchStatus, toggle } = useEngineStore();
+
+    useEffect(() => {
+        fetchStatus();
+    }, [fetchStatus]);
 
     const { items, isLoading, isFetchingNextPage, hasNextPage, ref } = useInfiniteView<Observation>({
         queryKey: `pending-${locationId ?? 'all'}`,
@@ -51,7 +58,15 @@ export function EventInbox() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>События</CardTitle>
+                <div className="flex items-center justify-between">
+                    <CardTitle>События</CardTitle>
+                    <div className="flex items-center gap-2">
+                        <Badge variant={enabled ? 'default' : 'secondary'} className="text-xs">
+                            {enabled ? 'Engine: ON' : 'Engine: OFF'}
+                        </Badge>
+                        <Switch checked={enabled} disabled={loading} onCheckedChange={toggle} />
+                    </div>
+                </div>
             </CardHeader>
             <CardContent className="space-y-2">
                 <Button variant="outline" className="w-full" onClick={handleImport}>

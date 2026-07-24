@@ -1,0 +1,45 @@
+services:
+  backend:
+    build:
+      context: .
+      target: backend
+    ports:
+      - "${FOREST_FOXES_BACKEND_PORT:-8020}:8020"
+    volumes:
+      - forest-foxes-db:/app/.db
+    environment:
+      - FOREST_FOXES_BACKEND_PORT=8020
+      - FOREST_FOXES_DATABASE_URL=file:.db/forest-foxes/prod.db
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:8020/api/health').then(r=>{process.exit(r.ok?0:1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+  fox-engine:
+    build:
+      context: .
+      target: fox-engine
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - FOREST_FOXES_BACKEND_URL=http://backend:8020
+      - FOREST_FOXES_POLL_INTERVAL_MS=5000
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      target: frontend
+    ports:
+      - "${FOREST_FOXES_FRONTEND_PORT:-3020}:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  forest-foxes-db:

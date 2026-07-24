@@ -13,18 +13,21 @@
 ## Architecture
 
 ```
-[fox-engine] ──POST /api/observations──→ [forest-foxes-backend]
+[fox-engine] ──GET /api/engine/status──→ [forest-foxes-backend]
+       │                                          │
+       │ POST /api/observations                    │
+       └──────────────────────────────────────→    │
   (services/)                               (apps/)
-                                               |
+                                                |
 [forest-foxes-frontend] ──/api/* proxy──→      |
   (apps/)                                      |
-                                               | Prisma ORM
-                                               v
-                                        [SQLite / Postgres]
-                                          (.db/forest-foxes/)
+                                                | Prisma ORM
+                                                v
+                                         [SQLite / Postgres]
+                                           (.db/forest-foxes/)
 
-                                   [packages/forest-foxes-shared-prisma]
-                                     (shared Prisma types — consumed by backend only)
+                                    [packages/forest-foxes-shared-prisma]
+                                      (shared Prisma types — consumed by backend only)
 ```
 
 ### Frontend
@@ -51,7 +54,7 @@
 
 - **Service:** `services/fox-engine/`
 - **Stack:** TypeScript + tsx (standalone script)
-- **Purpose:** Generates random observations every 30 seconds and pushes them via HTTP POST to backend
+- **Purpose:** Generates random observations every 30 seconds and pushes them via HTTP POST to backend; checks engine status before each tick
 - **Lifetime:** Not managed by Nx — runs independently
 
 ### Shared Packages
@@ -62,8 +65,9 @@
 
 ### Data Flow
 
-1. `fox-engine` generates random observations → sends HTTP POST to backend (`/api/observations`)
-2. Backend persists via Prisma → SQLite/Postgres
+1. `fox-engine` checks `GET /api/engine/status` before each tick — skips if engine is disabled
+2. If enabled, generates random observations → sends HTTP POST to backend (`/api/observations`)
+3. Backend persists via Prisma → SQLite/Postgres
 3. Frontend polls or queries backend via REST API (`/api/observations`)
 4. User interacts with upper section: map (click location), event sidebars (click event)
 5. Event detail modal allows field editing and status change (pending → processed)
@@ -433,6 +437,32 @@ LOWER SECTION:
 - - Verify invalid JSON returns 400
 - - Verify duplicate ids are skipped
 
+### Feature: Engine Toggle (On/Off Switch)
+
+- ID: F-013
+- Status: Done
+- Description
+- - UI toggle in the "События" sidebar header to turn the fox-engine on/off
+- - Switch plus a status badge ("Engine: ON" / "Engine: OFF") at the top of the left sidebar (EventInbox)
+- - Backend stores engine state in-memory (resets to `OFF` on server restart)
+- - Fox-engine checks `GET /api/engine/status` before each observation tick and skips when disabled
+- - Zustand store (`engineStore`) manages frontend state: `enabled`, `loading`, `fetchStatus()`, `toggle()`
+- User Flow
+- - See Switch and Badge in the "События" card header
+- - Toggle Switch → POST /api/engine/toggle → badge updates instantly
+- - Fox-engine reads `{ enabled: false }` on next tick → skips posting
+- - Toggle back ON → engine resumes posting on next tick
+- Technical Notes
+- - Backend: `EngineService` (in-memory boolean), `EngineController` (`GET /api/engine/status`, `POST /api/engine/toggle`), `EngineModule` registered in `AppModule`
+- - Fox-engine: `isEngineEnabled()` calls `GET /api/engine/status` before each tick; defaults to `true` on network error
+- - Frontend: `engineStore.ts` (Zustand), `EventInbox.tsx` injects `Switch` + `Badge` into `CardHeader`
+- - Default state: `OFF` (engine disabled on server start)
+- Test Spec
+- - Verify Switch and badge render in EventInbox header
+- - Verify toggle sends POST and updates badge
+- - Verify fox-engine skips ticks when disabled
+- - Verify engine resumes when toggled back on
+
 <!---------------------------------------------------------------------------------------------------->
 
 ## API Reference
@@ -463,6 +493,11 @@ LOWER SECTION:
 - `POST /api/seeds/clean` — Reset database to clean state (only locations)
 - `POST /api/seeds/working` — Populate with working dataset (20-50 events)
 - `POST /api/seeds/crash-test` — Populate with 10,000 events
+
+### Engine
+
+- `GET /api/engine/status` — Get engine enabled state (`{ enabled: boolean }`)
+- `POST /api/engine/toggle` — Toggle engine on/off, returns new state
 
 ### Health
 
@@ -511,6 +546,7 @@ LOWER SECTION:
 | FilterStore | in-memory | `filter-store` |
 | TabStore | in-memory | `tab-store` |
 | ViewModeStore | in-memory | `view-mode-store` |
+| EngineStore | in-memory | `engine-store` |
 
 ### ObservationStore
 - Holds list of all observations (pending and processed)
@@ -532,6 +568,12 @@ LOWER SECTION:
 - Currently selected event (for modal)
 - Active grid cell highlight
 - Lower section scroll state
+
+### EngineStore
+- Engine enabled state boolean
+- Methods: `fetchStatus()`, `toggle()`
+- On mount: fetches status from `GET /api/engine/status`
+- Toggle calls `POST /api/engine/toggle` and updates local state
 
 <!---------------------------------------------------------------------------------------------------->
 

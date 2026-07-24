@@ -154,3 +154,19 @@
 - [DONE] Test empty states for all components
 - [DONE] Fix all discovered issues
 - [DONE] Final typecheck and lint verification
+
+## epic-docker | Containerized Deployment with Docker
+- [ ] Create .dockerignore for optimized build context
+- [ ] Create multi-stage Dockerfile (deps, frontend-build, backend, fox-engine, frontend)
+- [ ] Create docker/nginx.conf for frontend proxy to backend
+- [ ] Create docker-compose.yml orchestrating backend, fox-engine, frontend
+- [ ] Verify docker compose build and up succeed
+
+## epic-engine-toggle | UI Toggle for Fox Engine On/Off
+- [ ] Create EngineModule in backend (EngineService, EngineController, EngineModule)
+- [ ] Implement GET /api/engine/status and POST /api/engine/toggle endpoints
+- [ ] Register EngineModule in AppModule
+- [ ] Update fox-engine to check /api/engine/status before each observation tick
+- [ ] Create engineStore.ts in frontend (enabled state, fetchStatus, toggle)
+- [ ] Add Switch + status badge to top of EventInbox (left sidebar)
+- [ ] Wire Switch to toggle engine on/off via backend endpoint

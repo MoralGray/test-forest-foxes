@@ -1,11 +1,12 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
 import { AppController } from './app.controller.js';
+import { EngineModule } from './engine/engine.module.js';
 import { ObservationsModule } from './observations/observations.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 
 @Module({
-    imports: [PrismaModule, ObservationsModule],
+    imports: [PrismaModule, ObservationsModule, EngineModule],
     controllers: [AppController],
     providers: [
         {
